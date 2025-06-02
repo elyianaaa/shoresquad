@@ -195,3 +195,25 @@ const revealOnScroll = new IntersectionObserver(
 document.querySelectorAll('section').forEach(section => {
     revealOnScroll.observe(section);
 });
+
+// Add click handlers for registration buttons
+document.querySelectorAll('.register-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const eventDetails = this.closest('.cleanup-event');
+        const location = eventDetails.querySelector('strong').textContent;
+        const date = eventDetails.querySelector('.date').textContent;
+        const currentParticipants = eventDetails.querySelector('.participants');
+        
+        // Update registration status
+        this.textContent = 'Registered!';
+        this.style.backgroundColor = '#98FF98';
+        this.disabled = true;
+        
+        // Update participant count
+        const count = parseInt(currentParticipants.textContent) + 1;
+        currentParticipants.textContent = `${count} participants registered`;
+        
+        // Show confirmation
+        alert(`Thank you for registering!\n\nLocation: ${location}\nDate: ${date}\n\nWe'll send you an email with more details.`);
+    });
+});

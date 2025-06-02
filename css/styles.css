@@ -122,6 +122,12 @@ nav a:hover {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.map-info h3 {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
 .map-info p {
     margin: 0.5rem 0;
     color: var(--color-text);
@@ -129,6 +135,58 @@ nav a:hover {
 
 .map-info strong {
     color: var(--color-primary);
+}
+
+.cleanup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cleanup-event {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cleanup-event:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.cleanup-event strong {
+    font-size: 1.1rem;
+    color: var(--color-text);
+}
+
+.cleanup-event .date {
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+.cleanup-event .participants {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.register-button {
+    background-color: var(--color-success);
+    color: var(--color-text);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.register-button:hover {
+    transform: translateY(-1px);
+    background-color: #7dff7d;
 }
 
 /* Weather Section */
