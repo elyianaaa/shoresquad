@@ -97,7 +97,5 @@ const revealOnScroll = new IntersectionObserver(
 );
 
 document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transition = 'opacity 0.5s ease-in-out';
     revealOnScroll.observe(section);
 });

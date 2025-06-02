@@ -187,3 +187,13 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Animation Classes */
+section {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+section.visible {
+    opacity: 1;
+}
