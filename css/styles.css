@@ -340,3 +340,32 @@ section.visible {
 .retry-button:hover {
     background-color: #1557b0;
 }
+
+.countdown {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    color: var(--color-secondary);
+}
+
+.urgent .countdown {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.urgent {
+    border: 2px solid #ff4444;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
+}

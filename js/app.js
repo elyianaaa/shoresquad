@@ -196,24 +196,85 @@ document.querySelectorAll('section').forEach(section => {
     revealOnScroll.observe(section);
 });
 
-// Add click handlers for registration buttons
-document.querySelectorAll('.register-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const eventDetails = this.closest('.cleanup-event');
+// Handle registrations with local storage
+function initializeRegistrations() {
+    const registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+    
+    document.querySelectorAll('.register-button').forEach(button => {
+        const eventDetails = button.closest('.cleanup-event');
         const location = eventDetails.querySelector('strong').textContent;
         const date = eventDetails.querySelector('.date').textContent;
-        const currentParticipants = eventDetails.querySelector('.participants');
+        const eventId = `${location}-${date}`;
         
-        // Update registration status
-        this.textContent = 'Registered!';
-        this.style.backgroundColor = '#98FF98';
-        this.disabled = true;
+        // Check if already registered
+        if (registrations.includes(eventId)) {
+            button.textContent = 'Registered!';
+            button.style.backgroundColor = '#98FF98';
+            button.disabled = true;
+        }
         
-        // Update participant count
-        const count = parseInt(currentParticipants.textContent) + 1;
-        currentParticipants.textContent = `${count} participants registered`;
-        
-        // Show confirmation
-        alert(`Thank you for registering!\n\nLocation: ${location}\nDate: ${date}\n\nWe'll send you an email with more details.`);
+        button.addEventListener('click', function() {
+            const currentParticipants = eventDetails.querySelector('.participants');
+            
+            // Update registration status
+            this.textContent = 'Registered!';
+            this.style.backgroundColor = '#98FF98';
+            this.disabled = true;
+            
+            // Update participant count
+            const count = parseInt(currentParticipants.textContent) + 1;
+            currentParticipants.textContent = `${count} participants registered`;
+            
+            // Save to local storage
+            registrations.push(eventId);
+            localStorage.setItem('registrations', JSON.stringify(registrations));
+            
+            // Show confirmation
+            alert(`Thank you for registering!\n\nLocation: ${location}\nDate: ${date}\n\nWe'll send you an email with more details.`);
+        });
     });
-});
+}
+
+// Initialize registrations
+initializeRegistrations();
+
+// Function to calculate time until event
+function getTimeUntilEvent(dateString) {
+    const eventDate = new Date(dateString);
+    const now = new Date();
+    const diffTime = eventDate - now;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays < 0) return 'Event has passed';
+    if (diffDays === 0) return 'Today!';
+    if (diffDays === 1) return 'Tomorrow!';
+    return `${diffDays} days away`;
+}
+
+// Update countdown timers
+function updateEventTimers() {
+    document.querySelectorAll('.cleanup-event').forEach(event => {
+        const dateElem = event.querySelector('.date');
+        const dateText = dateElem.textContent.split('•')[0].trim();
+        const countdown = getTimeUntilEvent(dateText);
+        
+        // Update or create countdown element
+        let countdownElem = event.querySelector('.countdown');
+        if (!countdownElem) {
+            countdownElem = document.createElement('p');
+            countdownElem.className = 'countdown';
+            event.insertBefore(countdownElem, event.querySelector('.register-button'));
+        }
+        countdownElem.textContent = countdown;
+        
+        // Add urgent class if event is soon
+        if (countdown === 'Today!' || countdown === 'Tomorrow!') {
+            event.classList.add('urgent');
+        }
+    });
+}
+
+// Initialize countdown timers
+updateEventTimers();
+// Update timers every hour
+setInterval(updateEventTimers, 60 * 60 * 1000);
